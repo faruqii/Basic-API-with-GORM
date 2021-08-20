@@ -1,1 +1,1 @@
-*basic API with gorm and postgres
+# basic API with gorm and postgres
