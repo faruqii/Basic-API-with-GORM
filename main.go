@@ -22,7 +22,7 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/books", bookHandler.GetBooks)
-	app.Post("/books", bookHandler.NewBooks)
+	app.Post("/books", bookHandler.NewBook)
 	app.Get("/books/:id", bookHandler.GetBookByID)
 
 	app.Listen(":3000")

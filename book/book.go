@@ -1,7 +1,6 @@
 package book
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -21,39 +20,15 @@ type (
 	}
 )
 
+// db handler
 func NewHandler(db *gorm.DB) *Handler {
 	return &Handler{
 		db: db,
 	}
 }
 
-func (h *Handler) GetBookByID(c *fiber.Ctx) error {
-	
-	id := c.Params("id")
-	log.Println(id)
-	book := Book{}
-
-	err := h.db.Where("id = ?", id).First(&book).Error
-	if err != nil {
-		return c.Status(http.StatusBadRequest).JSON(err.Error())
-	}
-	
-	return c.JSON(book)
-}
-
-func (h *Handler) GetBooks(c *fiber.Ctx) error {
-
-	books := []Book{}
-
-	err := h.db.Find(&books).Error
-	if err != nil {
-		return c.JSON(err)
-	}
-
-	return c.JSON(books)
-}
-
-func (h *Handler) NewBooks(c *fiber.Ctx) error {
+// add book
+func (h *Handler) NewBook(c *fiber.Ctx) error {
 
 	book := Book{}
 	if err := c.BodyParser(&book); err != nil {
@@ -66,4 +41,31 @@ func (h *Handler) NewBooks(c *fiber.Ctx) error {
 	}
 
 	return c.JSON("SUCCESS")
+}
+
+// get book with spesific id
+func (h *Handler) GetBookByID(c *fiber.Ctx) error {
+	
+	id := c.Params("id")
+	book := Book{}
+
+	err := h.db.Where("id = ?", id).First(&book).Error
+	if err != nil {
+		return c.Status(http.StatusBadRequest).JSON(err.Error())
+	}
+	
+	return c.JSON(book)
+}
+
+// get all books
+func (h *Handler) GetBooks(c *fiber.Ctx) error {
+
+	books := []Book{}
+
+	err := h.db.Find(&books).Error
+	if err != nil {
+		return c.JSON(err)
+	}
+
+	return c.JSON(books)
 }
