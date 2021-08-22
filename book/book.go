@@ -43,7 +43,7 @@ func (h *Handler) NewBook(c *fiber.Ctx) error {
 	return c.JSON("SUCCESS")
 }
 
-// get book with spesific id
+// get book with specific id
 func (h *Handler) GetBookByID(c *fiber.Ctx) error {
 	
 	id := c.Params("id")
