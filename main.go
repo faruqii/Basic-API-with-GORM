@@ -23,6 +23,7 @@ func main() {
 
 	app.Get("/books", bookHandler.GetBooks)
 	app.Post("/books", bookHandler.NewBooks)
+	app.Get("/books/:id", bookHandler.GetBookByID)
 
 	app.Listen(":3000")
 }

@@ -1,6 +1,7 @@
 package book
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -24,6 +25,20 @@ func NewHandler(db *gorm.DB) *Handler {
 	return &Handler{
 		db: db,
 	}
+}
+
+func (h *Handler) GetBookByID(c *fiber.Ctx) error {
+	
+	id := c.Params("id")
+	log.Println(id)
+	book := Book{}
+
+	err := h.db.Where("id = ?", id).First(&book).Error
+	if err != nil {
+		return c.Status(http.StatusBadRequest).JSON(err.Error())
+	}
+	
+	return c.JSON(book)
 }
 
 func (h *Handler) GetBooks(c *fiber.Ctx) error {
