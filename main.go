@@ -25,6 +25,7 @@ func main() {
 	app.Post("/books", bookHandler.NewBook)
 	app.Get("/books/:id", bookHandler.GetBookByID)
 	app.Put("/books/:id", bookHandler.UpdateBook)
+	app.Delete("/books/:id", bookHandler.DeleteBook)
 
 	app.Listen(":3000")
 }

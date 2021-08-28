@@ -86,24 +86,26 @@ func (h *Handler) UpdateBook(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(err.Error())
 	}
 	
-	h.db.Model(&book)
+	h.db.Model(&book).Updates(input)
 	
 	return c.Status(http.StatusOK).JSON(book)
 }
 
 // Delete Book
-// func (h *Handler) DeleteBook(c *fiber.Ctx) error {
+func (h *Handler) DeleteBook(c *fiber.Ctx) error {
 
-// 	id := c.Params("id")
-// 	book := Book {}
+	id := c.Params("id")
+	book := Book {}
 
-// 	err := h.db.Where("id = ?", id).First(&book).Error
-// 	if err != nil {
-// 		return c.Status(http.StatusBadRequest).JSON(err.Error())
-// 	}
+	err := h.db.Where("id = ?", id).First(&book).Error
+	if err != nil {
+		return c.Status(http.StatusBadRequest).JSON(err.Error())
+	}
 
-// 	del := book
+	h.db.Delete(&book)
 
-// }
+	return c.JSON("Succesfull Delete Book with id"+" "+id)
+
+}
 
 
