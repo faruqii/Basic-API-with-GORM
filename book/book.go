@@ -14,11 +14,11 @@ type (
 		Title  string
 		Author string
 	}
-
 	Handler struct {
 		db *gorm.DB
 	}
 )
+
 
 // db handler
 func NewHandler(db *gorm.DB) *Handler {
@@ -69,3 +69,41 @@ func (h *Handler) GetBooks(c *fiber.Ctx) error {
 
 	return c.JSON(books)
 }
+
+// Update book
+func (h *Handler) UpdateBook(c *fiber.Ctx) error {
+
+	id := c.Params("id")
+	book := Book{}
+
+	err := h.db.Where("id = ?", id).First(&book).Error
+	if err != nil {
+		return c.Status(http.StatusBadRequest).JSON(err.Error())
+	}
+
+	input:= Book{}
+	if err := c.BodyParser(&input); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(err.Error())
+	}
+	
+	h.db.Model(&book)
+	
+	return c.Status(http.StatusOK).JSON(book)
+}
+
+// Delete Book
+// func (h *Handler) DeleteBook(c *fiber.Ctx) error {
+
+// 	id := c.Params("id")
+// 	book := Book {}
+
+// 	err := h.db.Where("id = ?", id).First(&book).Error
+// 	if err != nil {
+// 		return c.Status(http.StatusBadRequest).JSON(err.Error())
+// 	}
+
+// 	del := book
+
+// }
+
+
