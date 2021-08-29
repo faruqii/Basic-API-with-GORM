@@ -40,7 +40,7 @@ func (h *Handler) NewBook(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(err.Error())
 	}
 
-	return c.JSON("SUCCESS")
+	return c.Status(http.StatusCreated).JSON("SUCCESS")
 }
 
 // get book with specific id
@@ -51,10 +51,10 @@ func (h *Handler) GetBookByID(c *fiber.Ctx) error {
 
 	err := h.db.Where("id = ?", id).First(&book).Error
 	if err != nil {
-		return c.Status(http.StatusBadRequest).JSON(err.Error())
+		return c.Status(http.StatusNotFound).JSON(err.Error())
 	}
 	
-	return c.JSON(book)
+	return c.Status(http.StatusOK).JSON(book)
 }
 
 // get all books
