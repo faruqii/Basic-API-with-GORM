@@ -21,3 +21,7 @@ go get gorm.io/gorm
 ```bash
 $ go run main.go
 ```
+- Database Migration
+```bash
+$ go run migration.go
+```
